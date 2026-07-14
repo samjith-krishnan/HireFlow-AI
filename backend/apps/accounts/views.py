@@ -3,7 +3,7 @@ from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from .serializers import RegisterCompanySerializer
+from .serializers import RegisterCompanySerializer,LoginSerializer
 from .services import AuthService
 
 
@@ -25,4 +25,31 @@ class RegisterCompanyAPIView(APIView):
                 "data": data,
             },
             status=status.HTTP_201_CREATED,
+        )
+    
+
+class LoginAPIView(APIView):
+
+    permission_classes = [AllowAny]
+
+    def post(self, request):
+
+        serializer = LoginSerializer(
+            data=request.data
+        )
+
+        serializer.is_valid(
+            raise_exception=True
+        )
+
+        data = AuthService.login(
+            serializer.validated_data["user"]
+        )
+
+        return Response(
+            {
+                "success": True,
+                "message": "Login successful.",
+                "data": data,
+            }
         )

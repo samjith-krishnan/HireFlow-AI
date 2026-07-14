@@ -8,6 +8,7 @@ from apps.accounts.serializers import (
     UserSerializer,
     CompanySerializer,
 )
+from rest_framework_simplejwt.tokens import RefreshToken
 
 class AuthService:
 
@@ -41,3 +42,18 @@ class AuthService:
             "user": UserSerializer(owner).data,
             "company": CompanySerializer(company).data,
         }
+    
+
+    @staticmethod
+    def login(user):
+
+        refresh = RefreshToken.for_user(user)
+
+        return {
+            "access": str(refresh.access_token),
+            "refresh": str(refresh),
+            "user": UserSerializer(user).data,
+            "company": CompanySerializer(user.company).data,
+        }
+    
+

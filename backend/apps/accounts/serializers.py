@@ -3,6 +3,7 @@ from rest_framework import serializers
 
 from apps.accounts.models import User
 from apps.companies.models import Company
+from django.contrib.auth import authenticate
 
 
 class RegisterCompanySerializer(serializers.Serializer):
@@ -79,3 +80,34 @@ class CompanySerializer(serializers.ModelSerializer):
             "name",
             "slug",
         )
+
+
+
+
+
+class LoginSerializer(serializers.Serializer):
+    email = serializers.EmailField()
+    password = serializers.CharField(write_only=True)
+
+    def validate(self, attrs):
+        email = attrs.get("email")
+        password = attrs.get("password")
+
+        user = authenticate(
+            username=email,
+            password=password,
+        )
+
+        if not user:
+            raise serializers.ValidationError(
+                "Invalid email or password."
+            )
+
+        if not user.is_active:
+            raise serializers.ValidationError(
+                "Your account is inactive."
+            )
+
+        attrs["user"] = user
+
+        return attrs
