@@ -87,3 +87,37 @@ class Company(BaseModel):
 
     def __str__(self):
         return self.name
+    
+
+
+class Department(BaseModel):
+    company = models.ForeignKey(
+        "companies.Company",
+        on_delete=models.CASCADE,
+        related_name="departments",
+    )
+
+    name = models.CharField(
+        max_length=100,
+    )
+
+    description = models.TextField(
+        blank=True,
+    )
+
+    is_active = models.BooleanField(
+        default=True,
+    )
+
+    class Meta:
+        db_table = "departments"
+        ordering = ["name"]
+        constraints = [
+            models.UniqueConstraint(
+                fields=["company", "name"],
+                name="unique_department_per_company",
+            )
+        ]
+
+    def __str__(self):
+        return f"{self.company.name} - {self.name}"
