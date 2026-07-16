@@ -1,7 +1,7 @@
 from rest_framework import generics
 from rest_framework.permissions import IsAuthenticated
 
-from companies.permissions import IsOwnerOrHR
+from apps.companies.permissions import IsOwnerOrHR
 from .serializers import SkillSerializer
 from .selectors import SkillSelector
 from .services import SkillService

@@ -8,6 +8,6 @@ from .views import (
 app_name = "skills"
 
 urlpatterns = [
-    path("",SkillListCreateAPIView.as_view(),name="skill-list-create" ),
+    path("list",SkillListCreateAPIView.as_view(),name="skill-list-create" ),
     path( "<uuid:id>/",SkillRetrieveUpdateDestroyAPIView.as_view(), name="skill-detail",),
 ]
