@@ -29,6 +29,7 @@ INSTALLED_APPS = [
     "apps.employees",
     "apps.skills",
     "apps.candidates",
+    "apps.applications",
 
 
     "rest_framework_simplejwt",

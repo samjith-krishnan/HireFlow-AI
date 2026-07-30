@@ -54,3 +54,22 @@ class ExperienceLevel(models.TextChoices):
     MID = "MID", "Mid Level"
     SENIOR = "SENIOR", "Senior"
     LEAD = "LEAD", "Lead"
+
+
+class ApplicationStatus(models.TextChoices):
+    APPLIED = "applied", "Applied"
+    SCREENING = "screening", "Screening"
+    SHORTLISTED = "shortlisted", "Shortlisted"
+    INTERVIEW = "interview", "Interview"
+    OFFERED = "offered", "Offered"
+    HIRED = "hired", "Hired"
+    REJECTED = "rejected", "Rejected"
+    WITHDRAWN = "withdrawn", "Withdrawn"
+
+
+class ApplicationSource(models.TextChoices):
+    CAREER_PORTAL = "career_portal", "Career Portal"
+    REFERRAL = "referral", "Referral"
+    LINKEDIN = "linkedin", "LinkedIn"
+    INDEED = "indeed", "Indeed"
+    MANUAL = "manual", "Manual"
