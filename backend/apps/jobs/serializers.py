@@ -95,4 +95,5 @@ class JobListSerializer(serializers.ModelSerializer):
             "deadline",
             "created_by",
             "created_at",
+            "public_token"
         )

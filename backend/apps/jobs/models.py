@@ -1,6 +1,6 @@
 from django.db import models
 from django.utils.text import slugify
-
+import secrets
 from apps.common.models import BaseModel
 from apps.common.choices import (
     EmploymentType,
@@ -112,6 +112,12 @@ class Job(BaseModel):
         default=True,
     )
 
+    apply_token  = models.CharField(
+        max_length=32,
+        unique=True,
+        editable=False,
+    )
+
     class Meta:
         db_table = "jobs"
         ordering = ["-created_at"]
@@ -125,6 +131,9 @@ class Job(BaseModel):
     def save(self, *args, **kwargs):
         if not self.slug:
             self.slug = slugify(self.title)
+
+        if not self.public_token:
+            self.public_token = secrets.token_urlsafe(16)
 
         super().save(*args, **kwargs)
 
