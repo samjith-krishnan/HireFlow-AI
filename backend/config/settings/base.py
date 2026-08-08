@@ -30,6 +30,8 @@ INSTALLED_APPS = [
     "apps.skills",
     "apps.candidates",
     "apps.applications",
+    "apps.public",
+
 
 
     "rest_framework_simplejwt",

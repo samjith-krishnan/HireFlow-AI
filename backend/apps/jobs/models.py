@@ -132,8 +132,8 @@ class Job(BaseModel):
         if not self.slug:
             self.slug = slugify(self.title)
 
-        if not self.public_token:
-            self.public_token = secrets.token_urlsafe(16)
+        if not self.apply_token:
+            self.apply_token = secrets.token_urlsafe(16)
 
         super().save(*args, **kwargs)
 
