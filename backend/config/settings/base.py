@@ -31,6 +31,8 @@ INSTALLED_APPS = [
     "apps.candidates",
     "apps.applications",
     "apps.public",
+    "apps.ai",
+
 
 
 
