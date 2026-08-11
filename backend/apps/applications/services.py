@@ -1,8 +1,9 @@
 from django.db import transaction
 from django.utils import timezone
-
 from .models import Application
-
+from rest_framework.exceptions import ValidationError
+from apps.candidates.services import CandidateService
+from .selectors import ApplicationSelector
 
 class ApplicationService:
 
@@ -37,6 +38,44 @@ class ApplicationService:
                 "reviewed_at",
                 "updated_at",
             ]
+        )
+
+        return application
+
+
+    @staticmethod
+    @transaction.atomic
+    def create_application(
+        *,
+        job,
+        first_name,
+        last_name,
+        email,
+        phone_number,
+        resume,
+        cover_letter,
+    ):
+        candidate = CandidateService.get_or_create_candidate(
+            company=job.company,
+            first_name=first_name,
+            last_name=last_name,
+            email=email,
+            phone_number=phone_number,
+        )
+
+        if ApplicationSelector.has_applied(
+            candidate=candidate,
+            job=job,
+        ):
+            raise ValidationError(
+                "You have already applied for this job."
+            )
+
+        application = Application.objects.create(
+            candidate=candidate,
+            job=job,
+            resume=resume,
+            cover_letter=cover_letter,
         )
 
         return application

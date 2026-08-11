@@ -29,3 +29,9 @@ class ApplicationSelector:
                 job__company=company,
             )
         )
+    @staticmethod
+    def has_applied(candidate, job):
+        return Application.objects.filter(
+            candidate=candidate,
+            job=job,
+        ).exists()

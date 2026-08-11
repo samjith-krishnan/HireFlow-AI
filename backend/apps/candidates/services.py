@@ -5,14 +5,23 @@ class CandidateService:
 
     @staticmethod
     def get_or_create_candidate(
+        *,
         company,
-        validated_data,
+        first_name,
+        last_name,
+        email,
+        phone_number,
     ):
-        candidate, _ = Candidate.objects.get_or_create(
+        candidate, created = Candidate.objects.get_or_create(
             company=company,
-            email=validated_data["email"].lower().strip(),
-            defaults=validated_data,
+            email=email.lower().strip(),
+            defaults={
+                "first_name": first_name,
+                "last_name": last_name,
+                "phone_number": phone_number,
+            },
         )
+
         return candidate
 
     @staticmethod

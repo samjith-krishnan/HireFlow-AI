@@ -1,9 +1,10 @@
 from django.urls import path
 
-from .views import PublicJobAPIView
+from .views import PublicJobAPIView,PublicApplyAPIView
 
 app_name = "public"
 
 urlpatterns = [
     path("jobs/<str:apply_token>/",PublicJobAPIView.as_view(),name="public-job-detail"),
+     path("jobs/<str:apply_token>/apply/",PublicApplyAPIView.as_view(),name="public-apply"),
 ]
