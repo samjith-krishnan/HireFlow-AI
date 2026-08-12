@@ -41,3 +41,4 @@ class ApplicationRetrieveUpdateDestroyAPIView(
 
     def perform_destroy(self, instance):
         ApplicationService.delete_application(instance)
+
