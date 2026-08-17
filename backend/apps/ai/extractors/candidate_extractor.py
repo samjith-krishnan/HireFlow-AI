@@ -43,6 +43,7 @@ class CandidateExtractorService:
                 return float(match.group(1))
 
         return None
+
     @staticmethod
     def extract_education(text):
         if not text:
@@ -72,13 +73,48 @@ class CandidateExtractorService:
 
         found_education = []
 
-        text_lower = text.lower()
-
         for keyword in education_keywords:
-            if keyword in text_lower:
+            pattern = rf"(?<!\w){re.escape(keyword)}(?!\w)"
+
+            if re.search(pattern, text, re.IGNORECASE):
                 found_education.append(keyword)
 
         return found_education
+
+    @staticmethod
+    def extract_projects(text):
+        if not text:
+            return []
+
+        lines = [
+            line.strip()
+            for line in text.splitlines()
+            if line.strip()
+        ]
+
+        project_keywords = [
+            "developed",
+            "built",
+            "created",
+            "implemented",
+        ]
+
+        projects = []
+
+        for line in lines:
+            line_lower = line.lower()
+
+            # Ignore section heading
+            if line_lower in ["project:", "projects:"]:
+                continue
+
+            if any(
+                keyword in line_lower
+                for keyword in project_keywords
+            ):
+                projects.append(line)
+
+        return projects
 
     @staticmethod
     def extract(text):
@@ -86,5 +122,5 @@ class CandidateExtractorService:
             "skills": CandidateExtractorService.extract_skills(text),
             "experience_years": CandidateExtractorService.extract_experience(text),
             "education": CandidateExtractorService.extract_education(text),
-            "projects": [],
+            "projects": CandidateExtractorService.extract_projects(text),
         }
