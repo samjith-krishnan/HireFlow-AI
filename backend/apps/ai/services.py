@@ -1,4 +1,5 @@
 from .parsers.factory import ParserFactory
+from .extractors.candidate_extractor import CandidateExtractorService
 
 
 class ResumeParserService:
@@ -11,13 +12,25 @@ class ResumeParserService:
 
     @staticmethod
     def process_application(application):
+      
         text = ResumeParserService.extract_text(
             application.resume
         )
 
+       
+        parsed_data = CandidateExtractorService.extract(
+            text
+        )
+
+    
         application.resume_text = text
+        application.parsed_data = parsed_data
+
         application.save(
-            update_fields=["resume_text"]
+            update_fields=[
+                "resume_text",
+                "parsed_data",
+            ]
         )
 
         return application
