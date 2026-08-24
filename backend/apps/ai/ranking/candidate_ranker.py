@@ -23,3 +23,28 @@ class CandidateRanker:
         return (
             len(matched_skills) / len(required)
         ) * 100
+
+    @staticmethod
+    def calculate_experience_score(
+        minimum_experience,
+        maximum_experience,
+        candidate_experience,
+    ):
+        if candidate_experience is None:
+            return 0.0
+
+        if candidate_experience < minimum_experience:
+            if minimum_experience == 0:
+                return 100.0
+
+            return (
+                candidate_experience / minimum_experience
+            ) * 100
+
+        if (
+            maximum_experience > 0
+            and candidate_experience > maximum_experience
+        ):
+            return 100.0
+
+        return 100.0
