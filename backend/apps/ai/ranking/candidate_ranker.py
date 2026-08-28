@@ -48,3 +48,5 @@ class CandidateRanker:
             return 100.0
 
         return 100.0
+
+
