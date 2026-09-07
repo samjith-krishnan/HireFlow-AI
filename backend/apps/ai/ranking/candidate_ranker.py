@@ -41,12 +41,30 @@ class CandidateRanker:
                 candidate_experience / minimum_experience
             ) * 100
 
-        if (
-            maximum_experience > 0
-            and candidate_experience > maximum_experience
-        ):
-            return 100.0
-
         return 100.0
 
+    @staticmethod
+    def calculate_score(
+        required_skills,
+        candidate_skills,
+        minimum_experience,
+        maximum_experience,
+        candidate_experience,
+    ):
+        skill_score = CandidateRanker.calculate_skill_score(
+            required_skills,
+            candidate_skills,
+        )
 
+        experience_score = CandidateRanker.calculate_experience_score(
+            minimum_experience,
+            maximum_experience,
+            candidate_experience,
+        )
+
+        final_score = (
+            skill_score * 0.60
+            + experience_score * 0.40
+        )
+
+        return round(final_score, 2)
