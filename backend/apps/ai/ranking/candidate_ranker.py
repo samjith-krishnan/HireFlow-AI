@@ -1,3 +1,6 @@
+from apps.ai.ranking.candidate_ranker import CandidateRanker
+
+
 class CandidateRanker:
 
     @staticmethod
@@ -68,3 +71,42 @@ class CandidateRanker:
         )
 
         return round(final_score, 2)
+
+    @staticmethod
+    def rank_application(application):
+
+        job = application.job
+
+        required_skills = list(
+            job.skills.values_list(
+                "name",
+                flat=True
+            )
+        )
+
+        parsed_data = application.parsed_data or {}
+
+        candidate_skills = parsed_data.get(
+            "skills",
+            []
+        )
+
+        candidate_experience = parsed_data.get(
+            "experience_years"
+        )
+
+        score = CandidateRanker.calculate_score(
+            required_skills=required_skills,
+            candidate_skills=candidate_skills,
+            minimum_experience=job.minimum_experience,
+            maximum_experience=job.maximum_experience,
+            candidate_experience=candidate_experience,
+        )
+
+        application.ai_score = score
+
+        application.save(
+            update_fields=["ai_score"]
+        )
+
+        return score
