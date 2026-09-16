@@ -4,7 +4,7 @@ from .models import Application
 from rest_framework.exceptions import ValidationError
 from apps.candidates.services import CandidateService
 from .selectors import ApplicationSelector
-
+from apps.ai.services import ResumeParserService
 class ApplicationService:
 
     @staticmethod
@@ -77,5 +77,6 @@ class ApplicationService:
             resume=resume,
             cover_letter=cover_letter,
         )
+        ResumeParserService.process_application(application)
 
         return application
