@@ -17,22 +17,6 @@ from .serializers import (
 )
 
 
-
-
-class PublicJobAPIView(RetrieveAPIView):
-    serializer_class = PublicJobSerializer
-    permission_classes = [AllowAny]
-
-    lookup_url_kwarg = "apply_token"
-
-    def get_object(self):
-        return JobSelector.get_public_job(
-            apply_token=self.kwargs["apply_token"],
-        )
-
-
-
-
 class PublicJobAPIView(RetrieveAPIView):
     serializer_class = PublicJobSerializer
     permission_classes = [AllowAny]

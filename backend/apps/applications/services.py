@@ -9,11 +9,6 @@ class ApplicationService:
 
     @staticmethod
     @transaction.atomic
-    def create_application(serializer):
-        return serializer.save()
-
-    @staticmethod
-    @transaction.atomic
     def update_application(serializer):
         return serializer.save()
 
